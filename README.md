@@ -21,7 +21,7 @@ A SMTP server was configured as weel, in order to receive acknolodge messages in
 
 Note that user and password were stored in a credential called imap-test.
 
-![](https://raw.githubusercontent.com/jrpereirajr/iris-imap-inbound-adapter-demo/master/img/image1.png)
+![](https://raw.githubusercontent.com/jrpereirajr/iris-imap-inbound-adapter-demo/master/img/brY9RdilYO.png)
 
 As you can see in the image below, the production starts and keeps querying the IMAP server for new messages. When there’re new messages, the inbound adapter grabs their information - like from header and subject, and lets production be able to take further actions based on such information.
 
