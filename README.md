@@ -37,6 +37,16 @@ When a message doesn’t match the criteria, it is just ignored by production.
 
 ![](https://raw.githubusercontent.com/jrpereirajr/iris-imap-inbound-adapter-demo/master/img/tvG4umHC0T.png)
 
+## Python implementation
+
+As a use case for using new [Embedded Python](https://learning.intersystems.com/course/view.php?id=1572&ssoPass=1), the IMAP adpater is also implemented using [imaplib](https://docs.python.org/3/library/imaplib.html) Python lib. With such feature you can import and use Python libraries directly in your ObjectScript classes:
+
+![](https://raw.githubusercontent.com/jrpereirajr/iris-imap-inbound-adapter/master/img/HVymozQWZf.png)
+
+![](https://raw.githubusercontent.com/jrpereirajr/iris-imap-inbound-adapter/master/img/JCZ7EaWo3U.png)
+
+You can check out the code in [dc.Demo.imap.python package](https://github.com/jrpereirajr/iris-imap-inbound-adapter/tree/master/src/dc/Demo/imap/python).
+
 ## Prerequisites
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.
 
