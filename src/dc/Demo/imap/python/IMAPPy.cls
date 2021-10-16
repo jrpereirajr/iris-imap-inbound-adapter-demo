@@ -14,10 +14,10 @@ Property UserName As %String [ Internal, Private ];
 /// Description
 Property MailboxName As %String [ InitialExpression = "INBOX" ];
 
-/// Description
+/// Stores the imaplib object reference
 Property imaplib As %SYS.Python [ Transient ];
 
-/// Description
+/// Stores the imaplib client instance
 Property client As %SYS.Python;
 
 /// Description
@@ -35,12 +35,6 @@ Method %OnNew() As %Status [ Private ]
 ClassMethod PythonToString(pPythonObj As %SYS.Python) As %String
 {
     Return pPythonObj."__str__"()
-}
-
-/// Description
-Method CheckConnection()
-{
-    Throw:'..Connected ##class(dc.Demo.imap.IMAPException).%New("Not connected")
 }
 
 /// <P>Use to logon to your mail server using the
@@ -225,47 +219,6 @@ Method GetMessageUIDArray(MessageNumber As %String = "", ByRef ListOfUniqueIDs A
     Return sc
 }
 
-/// <P>For the message number singled out by MessageNumber, this
-/// function returns the corresponding unique id.  The message
-/// number must not correspond to a non-existent message or a
-/// message already marked for deletion or an error message is
-/// returned.</P>
-/// 
-/// <P>The unique message identifier is at most 70 characters long and
-/// each character is ASCII and printable (0x21 to 0x7E).</P>
-/// 
-/// <P>Each identifier is unique within the mailbox and is persistent.
-/// If a given message has a particular unique identifier in one
-/// session, it must have the same unique ID in all sessions.  Once
-/// used, a given UID can never be reused even if the corresponding
-/// message is deleted.</P>
-/// 
-/// <P>If a specified message (corresponding to MessageNumber) does not
-/// exist or is marked for deletion, the function returns an
-/// error %Status.</P>
-/// 
-/// <P>This command is used to implement a poor mans server-based
-/// message store.  Basically, a client does not automatically
-/// delete messages, after getting messages, then at the start of
-/// each session, it calls GetMessageUIDs to obtain a
-/// list of all messages currently on the server.  Any UIDs not
-/// currently known by the client are retrieved.  That of course
-/// requires the client to keep track of the UIDs for all retrieved
-/// messages.<P>
-Method GetMessageUID(MessageNumber As %Integer, ByRef UniqueID As %String) As %Status
-{
-    Set sc = $$$OK
-    Try {
-        $$$TOE(sc, ..GetMessageUIDArray(MessageNumber, .ListOfUniqueIDs))
-        Set:($ISOBJECT($GET(ListOfUniqueIDs))) UniqueID = ListOfUniqueIDs.GetAt(MessageNumber)
-    }
-    Catch ex {
-        Set sc=ex.AsStatus()
-        Do ..Helper.Log("[Fetch] GetMessageUIDArray failed: "_ex.DisplayString())
-    }
-    Return sc
-}
-
 /// <p>This method retrieves a single message.  MessageNumber must be a
 /// valid message number and the message must not be currently
 /// marked for deletion.</P>
@@ -392,8 +345,8 @@ Method CommitMarkedAsDeleted() As %Status [ Internal, Private ]
         Set resp = ..client.select(..MailboxName)
         Do ..Helper.Log("[CommitMarkedAsDeleted] "_..MailboxName_": "_..PythonToString(resp))
         
-        // transverse array in inverse order to keep numbers integrety, that is,
-        // ensures that when onde number is deleted no other message can assume
+        // transverse array in inverse order to keep numbers integrity, that is,
+        // ensures that when the number is deleted no other message can assume
         // such number
         Set messageNumber = $Order(..MarkedAsDeleted(""), -1)
         While (messageNumber '= "") {
