@@ -5,8 +5,8 @@
       <Name>iris-imap-inbound-adapter-demo</Name>
       <Version>1.0.0</Version>
       <Packaging>module</Packaging>
-      <Resource Directory="src" Name="dc.Demo.imap.PKG"/>
-      <Resource Directory="src" Name="dc.Demo.imap.puthon.PKG"/>
+      <Resource Directory="src" Name="dc.demo.imap.PKG"/>
+      <Resource Directory="src" Name="dc.demo.imap.puthon.PKG"/>
       <SourcesRoot>src</SourcesRoot>
     </Module>
   </Document>

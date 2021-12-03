@@ -1,7 +1,7 @@
 Include %occErrors
 
 /// IMAPv4 implementation
-Class dc.Demo.imap.IMAP Extends %Net.FetchMailProtocol
+Class dc.demo.imap.IMAP Extends %Net.FetchMailProtocol
 {
 
 /// Description
@@ -14,7 +14,7 @@ Property Port As %String [ InitialExpression = 993 ];
 Property Timeout As %Integer [ InitialExpression = 30 ];
 
 /// Description
-Property Helper As dc.Demo.imap.IMAPHelper;
+Property Helper As dc.demo.imap.IMAPHelper;
 
 /// Description
 Property Device As %String [ Internal ];
@@ -33,7 +33,7 @@ Property MarkedAsDeleted [ MultiDimensional ];
 
 Method %OnNew() As %Status [ Private ]
 {
-    Set ..Helper = ##class(dc.Demo.imap.IMAPHelper).%New()
+    Set ..Helper = ##class(dc.demo.imap.IMAPHelper).%New()
 	Return $$$OK
 }
 
@@ -55,7 +55,7 @@ Method DeviceSet(pValue As %String) As %Status
 /// Description
 Method CheckConnection()
 {
-    Throw:'..Connected ##class(dc.Demo.imap.IMAPException).%New("Not connected")
+    Throw:'..Connected ##class(dc.demo.imap.IMAPException).%New("Not connected")
 }
 
 /// <P>Use to logon to your mail server using the
@@ -154,7 +154,7 @@ Method GetSizeOfMessages(MessageNumber As %String = "", ByRef ListOfSizes As %Ar
         Do ..CheckConnection()
         If (MessageNumber = "") {
             // TODO: performance test needed
-            Throw ##class(dc.Demo.imap.IMAPException).%New("Not implemented: get size of all messages in mailbox.")
+            Throw ##class(dc.demo.imap.IMAPException).%New("Not implemented: get size of all messages in mailbox.")
         }
         Set command = $$$FormatText("FETCH %1 (RFC822.SIZE)", MessageNumber)
         Set resp = ..Helper.SendCommand(command)

@@ -1,5 +1,5 @@
 /// Description
-Class dc.Demo.imap.python.IMAPPy Extends dc.Demo.imap.IMAP
+Class dc.demo.imap.python.IMAPPy Extends dc.demo.imap.IMAP
 {
 
 /// Description
@@ -21,12 +21,12 @@ Property imaplib As %SYS.Python [ Transient ];
 Property client As %SYS.Python;
 
 /// Description
-Property Helper As dc.Demo.imap.IMAPHelper;
+Property Helper As dc.demo.imap.IMAPHelper;
 
 Method %OnNew() As %Status [ Private ]
 {
     Set ..imaplib = ##class(%SYS.Python).Import("imaplib")
-    Set ..Helper = ##class(dc.Demo.imap.IMAPHelper).%New()
+    Set ..Helper = ##class(dc.demo.imap.IMAPHelper).%New()
     Do ..Helper.Log("[%OnNew] imaplib: "_..PythonToString(..imaplib))
 	Return $$$OK
 }
@@ -121,7 +121,7 @@ Method GetSizeOfMessages(MessageNumber As %String = "", ByRef ListOfSizes As %Ar
         Do ..CheckConnection()
         If (MessageNumber = "") {
             // TODO: performance test needed
-            Throw ##class(dc.Demo.imap.IMAPException).%New("Not implemented: get size of all messages in mailbox.")
+            Throw ##class(dc.demo.imap.IMAPException).%New("Not implemented: get size of all messages in mailbox.")
         }
 
         // select the mailbox

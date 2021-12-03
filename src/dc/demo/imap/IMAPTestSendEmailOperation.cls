@@ -1,5 +1,5 @@
 /// Description
-Class dc.Demo.imap.IMAPTestSendEmailOperation Extends Ens.BusinessOperation
+Class dc.demo.imap.IMAPTestSendEmailOperation Extends Ens.BusinessOperation
 {
 
 /// 2 modes: Queue, InProc
@@ -10,12 +10,12 @@ Parameter ADAPTER = "EnsLib.EMail.OutboundAdapter";
 
 XData MessageMap
 {
-<MapItem MessageType="dc.Demo.imap.IMAPTestReplyMsg">
+<MapItem MessageType="dc.demo.imap.IMAPTestReplyMsg">
 <Method>EMailSendReply</Method>
 </MapItem>
 }
 
-Method EMailSendReply(pRequest As dc.Demo.imap.IMAPTestReplyMsg, Output pResponse As Ens.Response) As %Status
+Method EMailSendReply(pRequest As dc.demo.imap.IMAPTestReplyMsg, Output pResponse As Ens.Response) As %Status
 {
 	If pRequest.Destination = "" $$$TRACE("no email address.") Quit $$$OK
 	$$$TRACE("send email to "_pRequest.Destination)

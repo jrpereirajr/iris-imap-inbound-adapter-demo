@@ -1,9 +1,9 @@
 /// Description
-Class dc.Demo.imap.IMAPInboundAdapter Extends EnsLib.EMail.InboundAdapter
+Class dc.demo.imap.IMAPInboundAdapter Extends EnsLib.EMail.InboundAdapter
 {
 
 /// Description
-Property MailServer As dc.Demo.imap.POP3ToIMAPAdapter;
+Property MailServer As dc.demo.imap.POP3ToIMAPAdapter;
 
 /// Description
 Property Mailbox As %String [ InitialExpression = "INBOX" ];

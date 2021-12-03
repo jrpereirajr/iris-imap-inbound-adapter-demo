@@ -1,5 +1,5 @@
 /// Description
-Class dc.Demo.imap.IMAPHelper Extends %RegisteredObject
+Class dc.demo.imap.IMAPHelper Extends %RegisteredObject
 {
 
 /// Description
@@ -29,7 +29,7 @@ Method Log(pMsg As %String) As %Status
     Return:'..LogEnabled $$$OK
     Set sc = $$$OK
     Set ts = $ZDT($H, 3)
-    Set ^dc.Demo.imap.IMAPHelper($JOB, $I(^dc.Demo.imap.IMAPHelper($JOB)), ts) = pMsg
+    Set ^dc.demo.imap.IMAPHelper($JOB, $I(^dc.demo.imap.IMAPHelper($JOB)), ts) = pMsg
     Return sc
 }
 
@@ -109,7 +109,7 @@ Method ReadResponse(ByRef pResponse As %String) [ Internal ]
     // check if the whole message was retrieved and its status is OK
     Set ackToken = $LISTGET(tokensLine, 2)
     If (ackToken '= "OK") {
-        Throw ##class(dc.Demo.imap.IMAPException).%New("IMAP error: "_$LISTTOSTRING(tokensLine, " "))
+        Throw ##class(dc.demo.imap.IMAPException).%New("IMAP error: "_$LISTTOSTRING(tokensLine, " "))
     }
 }
 

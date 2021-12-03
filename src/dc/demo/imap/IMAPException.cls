@@ -1,5 +1,5 @@
 /// Description
-Class dc.Demo.imap.IMAPException Extends %Exception.AbstractException
+Class dc.demo.imap.IMAPException Extends %Exception.AbstractException
 {
 
 /// Override this method to provide a custom conversion of an exception to a status.

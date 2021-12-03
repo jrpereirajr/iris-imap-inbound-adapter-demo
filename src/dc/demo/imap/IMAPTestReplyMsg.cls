@@ -1,5 +1,5 @@
 /// Description
-Class dc.Demo.imap.IMAPTestReplyMsg Extends Ens.Request
+Class dc.demo.imap.IMAPTestReplyMsg Extends Ens.Request
 {
 
 Property Text As %String(MAXLEN = "");

@@ -1,5 +1,5 @@
 /// Description
-Class dc.Demo.imap.python.PythonDecorator Extends %SYS.Python
+Class dc.demo.imap.python.PythonDecorator Extends %SYS.Python
 {
 
 /// Description
@@ -16,7 +16,7 @@ Method %DispatchMethod(Method As %String, Args...)
     If (Method = "Get") {
         Set item = ..obj."__getitem__"(Args(1))
         If ($IsObject(item)) && (item.%IsA("%SYS.Python")) {
-            Set item = ##class(dc.Demo.imap.PythonDecorator).%New(item)
+            Set item = ##class(dc.demo.imap.PythonDecorator).%New(item)
         }
         Return item
     }

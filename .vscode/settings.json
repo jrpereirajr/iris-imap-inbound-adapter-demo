@@ -14,7 +14,7 @@
       },
       "active": true,
       "links": {
-        "Production": "http://localhost:${port}/csp/irisapp/EnsPortal.ProductionConfig.zen?PRODUCTION=dc.Demo.imap.IMAPProduction"
+        "Production": "http://localhost:${port}/csp/irisapp/EnsPortal.ProductionConfig.zen?PRODUCTION=dc.demo.imap.IMAPProduction"
       }
     },
     "sqltools.connections": [

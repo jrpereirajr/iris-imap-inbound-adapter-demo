@@ -45,7 +45,7 @@ As a use case for using new [Embedded Python](https://learning.intersystems.com/
 
 ![](https://raw.githubusercontent.com/jrpereirajr/iris-imap-inbound-adapter/master/img/JCZ7EaWo3U.png)
 
-You can check out the code in [dc.Demo.imap.python package](https://github.com/jrpereirajr/iris-imap-inbound-adapter/tree/master/src/dc/Demo/imap/python).
+You can check out the code in [dc.demo.imap.python package](https://github.com/jrpereirajr/iris-imap-inbound-adapter/tree/master/src/dc/Demo/imap/python).
 
 ## Prerequisites
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.
@@ -73,5 +73,5 @@ $ docker-compose up -d
 ```
 
 ## How to Run the Sample
-Set [dc.Demo.imap.IMAPTestService](https://github.com/jrpereirajr/iris-imap-inbound-adapter-demo/blob/master/src/dc/Demo/imap/IMAPTestService.cls) and [dc.Demo.imap.IMAPTestSendEmailOperation](https://github.com/jrpereirajr/iris-imap-inbound-adapter-demo/blob/master/src/dc/Demo/imap/IMAPTestSendEmailOperation.cls) parameters, configure credentials with user/password to your IMAP and SMTP server and naming it as imap-test, like explained [above](https://github.com/jrpereirajr/iris-imap-inbound-adapter-demo#what-the-sample-does). Then open the [production](http://localhost:52785/csp/irisapp/EnsPortal.ProductionConfig.zen?PRODUCTION=dc.Demo.imap.Production) and start it.
+Set [dc.demo.imap.IMAPTestService](https://github.com/jrpereirajr/iris-imap-inbound-adapter-demo/blob/master/src/dc/Demo/imap/IMAPTestService.cls) and [dc.demo.imap.IMAPTestSendEmailOperation](https://github.com/jrpereirajr/iris-imap-inbound-adapter-demo/blob/master/src/dc/Demo/imap/IMAPTestSendEmailOperation.cls) parameters, configure credentials with user/password to your IMAP and SMTP server and naming it as imap-test, like explained [above](https://github.com/jrpereirajr/iris-imap-inbound-adapter-demo#what-the-sample-does). Then open the [production](http://localhost:52785/csp/irisapp/EnsPortal.ProductionConfig.zen?PRODUCTION=dc.demo.imap.Production) and start it.
 A few secondes later you should start to see trace information with information on grabbed messages from the server in the [Event Log](http://localhost:52785/csp/irisapp/EnsPortal.EventLog.zen) page.

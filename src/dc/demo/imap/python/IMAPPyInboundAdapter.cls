@@ -1,9 +1,9 @@
 /// Description
-Class dc.Demo.imap.python.IMAPPyInboundAdapter Extends EnsLib.EMail.InboundAdapter
+Class dc.demo.imap.python.IMAPPyInboundAdapter Extends EnsLib.EMail.InboundAdapter
 {
 
 /// Description
-Property MailServer As dc.Demo.imap.python.POP3ToIMAPPyAdapter;
+Property MailServer As dc.demo.imap.python.POP3ToIMAPPyAdapter;
 
 /// Description
 Property Mailbox As %String [ InitialExpression = "INBOX" ];
