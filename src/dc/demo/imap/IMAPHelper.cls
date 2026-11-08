@@ -41,8 +41,10 @@ Method SendCommand(pCommand As %String = "") As %String
 {
     Set currIO = $IO
     Set exception = ""
+    Set tag = ""  // Ensure tag is always defined
     Try {
         Set command = ""
+        Set response = ""  // Initialize response variable
         If (pCommand '= "") {
             Set tag = ..GetTag()
             Set command = tag_" "_pCommand

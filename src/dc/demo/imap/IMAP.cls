@@ -97,9 +97,17 @@ Method Disconnect() As %Status
     Set sc = $$$OK
     Try {
         If ..Connected {
-            Do ..Helper.SendCommand("LOGOUT")
-            Close ..Device
+            Try {
+                Do ..Helper.SendCommand("LOGOUT")
+            } Catch logoutEx {
+                Do ..Helper.Log("[Disconnect] LOGOUT failed: "_logoutEx.DisplayString())
+            }
+            If ..Device'="" {
+                Close ..Device
+            }
             Set ..Device = ""
+            Set ..Helper.Device = ""
+            Set ..Server = ""
             Set ..Connected = 0
             Do ..Helper.Log("[Disconnect] Disconnected")
         }
@@ -544,11 +552,13 @@ Method QuitAndCommit() As %Status
     Set sc = $$$OK
     Try {
         Do ..CheckConnection()
-        $$$TOE(sc, ..CommitMarkedAsDeleted())
-        $$$TOE(sc, ..Disconnect())
+        Set tSC = ..CommitMarkedAsDeleted()
+        Set sc = $$$ADDSC(sc, tSC)
+        Set tSC = ..Disconnect()
+        Set sc = $$$ADDSC(sc, tSC)
     }
     Catch ex {
-        Set sc=ex.AsStatus()
+        Set sc = ex.AsStatus()
     }
     Return sc
 }
@@ -567,11 +577,15 @@ Method QuitAndRollback() As %Status
 {
     Set sc = $$$OK
     Try {
+        Do ..CheckConnection()
+        Do ..Helper.Log("[QuitAndRollback] Starting rollback")
         $$$TOE(sc, ..RollbackDeletes())
         $$$TOE(sc, ..Disconnect())
+        Do ..Helper.Log("[QuitAndRollback] Completed successfully")
     }
     Catch ex {
         Set sc=ex.AsStatus()
+        Do ..Helper.Log("[QuitAndRollback] Failed: "_ex.DisplayString())
     }
     Return sc
 }
