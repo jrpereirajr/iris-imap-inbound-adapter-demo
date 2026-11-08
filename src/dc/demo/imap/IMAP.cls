@@ -87,8 +87,25 @@ Method Connect(pServer As %String, pUserName As %String, pPassword As %String) A
     Catch ex {
         Set sc = ex.AsStatus()
         Do ..Helper.Log("[Connect] Connection failed: "_ex.DisplayString())
+        // release the device opened before a failed LOGIN, otherwise it leaks
+        Do ..CloseDevice()
     }
     Return sc
+}
+
+/// Closes the TCP device (if any) and resets connection state.
+Method CloseDevice() [ Internal, Private ]
+{
+    If ..Device '= "" {
+        Try {
+            Close ..Device
+        } Catch closeEx {
+            Do ..Helper.Log("[CloseDevice] Close failed: "_closeEx.DisplayString())
+        }
+    }
+    Set ..Device = ""
+    Set ..Server = ""
+    Set ..Connected = 0
 }
 
 /// Description
@@ -102,13 +119,10 @@ Method Disconnect() As %Status
             } Catch logoutEx {
                 Do ..Helper.Log("[Disconnect] LOGOUT failed: "_logoutEx.DisplayString())
             }
-            If ..Device'="" {
-                Close ..Device
-            }
-            Set ..Device = ""
-            Set ..Helper.Device = ""
-            Set ..Server = ""
-            Set ..Connected = 0
+        }
+        // always release the device, even if not logged in
+        If ..Connected || (..Device '= "") {
+            Do ..CloseDevice()
             Do ..Helper.Log("[Disconnect] Disconnected")
         }
     }
@@ -552,15 +566,12 @@ Method QuitAndCommit() As %Status
     Set sc = $$$OK
     Try {
         Do ..CheckConnection()
-        Set tSC = ..CommitMarkedAsDeleted()
-        Set sc = $$$ADDSC(sc, tSC)
-        Set tSC = ..Disconnect()
-        Set sc = $$$ADDSC(sc, tSC)
+        Set sc = ..CommitMarkedAsDeleted()
     }
     Catch ex {
         Set sc = ex.AsStatus()
     }
-    Return sc
+    Return ..EndSession(sc, "QuitAndCommit")
 }
 
 /// <P>This function calls RollbackDeletes and then quits.</P>
@@ -575,17 +586,21 @@ Method QuitAndCommit() As %Status
 /// a quit.)</P>
 Method QuitAndRollback() As %Status
 {
-    Set sc = $$$OK
-    Try {
-        Do ..CheckConnection()
-        Do ..Helper.Log("[QuitAndRollback] Starting rollback")
-        $$$TOE(sc, ..RollbackDeletes())
-        $$$TOE(sc, ..Disconnect())
-        Do ..Helper.Log("[QuitAndRollback] Completed successfully")
-    }
-    Catch ex {
-        Set sc=ex.AsStatus()
-        Do ..Helper.Log("[QuitAndRollback] Failed: "_ex.DisplayString())
+    Do ..Helper.Log("[QuitAndRollback] Starting rollback")
+    Return ..EndSession($$$OK, "QuitAndRollback")
+}
+
+/// Common end of a session for QuitAndCommit/QuitAndRollback.
+/// Message numbers are only valid within one session, so deletion marks
+/// are always cleared (even on failure) before disconnecting.
+Method EndSession(pStatus As %Status, pCaller As %String) As %Status [ Internal, Private ]
+{
+    Do ..RollbackDeletes()
+    Set sc = $$$ADDSC(pStatus, ..Disconnect())
+    If $$$ISERR(sc) {
+        Do ..Helper.Log("["_pCaller_"] Failed: "_$SYSTEM.Status.GetErrorText(sc))
+    } Else {
+        Do ..Helper.Log("["_pCaller_"] Completed successfully")
     }
     Return sc
 }

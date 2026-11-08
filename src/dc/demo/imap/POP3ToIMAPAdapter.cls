@@ -86,7 +86,7 @@ Method GetMessageUIDArray(MessageNumber As %String = "", ByRef ListOfUniqueIDs A
 
 Method GetMessageUID(MessageNumber As %Integer, ByRef UniqueID As %String) As %Status
 {
-    Return ..IMAPClient.GetMessageUIDArray(MessageNumber, .UniqueID)
+    Return ..IMAPClient.GetMessageUID(MessageNumber, .UniqueID)
 }
 
 Method Fetch(MessageNumber As %Integer, ByRef Msg As %Net.MailMessage, Delete As %Boolean = 0, messageStream As %BinaryStream = "") As %Status
@@ -96,7 +96,7 @@ Method Fetch(MessageNumber As %Integer, ByRef Msg As %Net.MailMessage, Delete As
 
 Method FetchFromStream(messageStream As %BinaryStream, ByRef Msg As %Net.MailMessage) As %Status
 {
-    Return ..IMAPClient.FetchFromStream(MessageNumber, .Msg)
+    Return ..IMAPClient.FetchFromStream(messageStream, .Msg)
 }
 
 Method FetchMessage(MessageNumber As %Integer, ByRef From As %String, ByRef To As %String, ByRef Date As %String, ByRef Subject As %String, ByRef MessageSize As %Integer, ByRef MsgHeaders As %ArrayOfDataTypes, ByRef Msg As %Net.MailMessage, Delete As %Boolean) As %Status
@@ -116,7 +116,7 @@ Method DeleteMessage(MessageNumber As %Integer) As %Status
 
 Method RollbackDeletes() As %Status
 {
-    Return ..IMAPClient.DeleteMessage()
+    Return ..IMAPClient.RollbackDeletes()
 }
 
 Method QuitAndCommit() As %Status

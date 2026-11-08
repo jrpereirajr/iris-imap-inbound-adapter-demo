@@ -108,6 +108,9 @@ Method ReadResponse(ByRef pResponse As %String) [ Internal ]
     }
     Do ..Log("Command response fetched")
 
+    // no command was sent (e.g. reading the server greeting): there is no tagged ack to check
+    Quit:(..CurrentCommand = "")
+
     // check if the whole message was retrieved and its status is OK
     Set ackToken = $LISTGET(tokensLine, 2)
     If (ackToken '= "OK") {

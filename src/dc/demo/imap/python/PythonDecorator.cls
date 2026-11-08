@@ -16,7 +16,7 @@ Method %DispatchMethod(Method As %String, Args...)
     If (Method = "Get") {
         Set item = ..obj."__getitem__"(Args(1))
         If ($IsObject(item)) && (item.%IsA("%SYS.Python")) {
-            Set item = ##class(dc.demo.imap.PythonDecorator).%New(item)
+            Set item = ##class(dc.demo.imap.python.PythonDecorator).%New(item)
         }
         Return item
     }
