@@ -60,8 +60,25 @@ Method Connect(pServer As %String, pUserName As %String, pPassword As %String) A
     Catch ex {
         Set sc = ex.AsStatus()
         Do ..Helper.Log("[Connect] Connection failed: "_ex.DisplayString())
+        // release the socket opened before a failed login
+        Do ..ReleaseClient()
     }
     Return sc
+}
+
+/// Shuts down the imaplib socket (if any) and resets connection state.
+Method ReleaseClient() [ Internal, Private ]
+{
+    If $IsObject(..client) {
+        Try {
+            Do ..client.shutdown()
+        } Catch shutdownEx {
+            Do ..Helper.Log("[ReleaseClient] shutdown failed: "_shutdownEx.DisplayString())
+        }
+    }
+    Set ..client = ""
+    Set ..Server = ""
+    Set ..Connected = 0
 }
 
 /// Description
@@ -70,9 +87,18 @@ Method Disconnect() As %Status
     Set sc = $$$OK
     Try {
         If ..Connected {
-            Set tuple = ..client.logout()
-            Do ..Helper.Log("[Disconnect] "_..PythonToString(tuple))
-            Set ..Connected = 0
+            Try {
+                // logout() also closes the socket on success
+                Set tuple = ..client.logout()
+                Do ..Helper.Log("[Disconnect] "_..PythonToString(tuple))
+                Set ..client = ""
+            } Catch logoutEx {
+                Do ..Helper.Log("[Disconnect] logout failed: "_logoutEx.DisplayString())
+            }
+        }
+        // always reset state so the next Connect is not blocked
+        If ..Connected || $IsObject(..client) {
+            Do ..ReleaseClient()
             Do ..Helper.Log("[Disconnect] Disconnected")
         }
     }
